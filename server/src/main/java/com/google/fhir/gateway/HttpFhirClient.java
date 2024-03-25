@@ -1,5 +1,5 @@
 /*
- * Copyright 2021-2023 Google LLC
+ * Copyright 2021-2024 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package com.google.fhir.gateway;
 import ca.uhn.fhir.rest.api.Constants;
 import ca.uhn.fhir.rest.server.servlet.ServletRequestDetails;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import java.io.IOException;
@@ -58,6 +57,7 @@ public abstract class HttpFhirClient {
           "location",
           "x-progress",
           "x-request-id",
+          "authorization",
           "x-correlation-id");
 
   // The list of incoming header names to keep for forwarding request to the FHIR server; use lower
@@ -85,6 +85,7 @@ public abstract class HttpFhirClient {
           "x-request-id",
           "x-correlation-id",
           "x-forwarded-for",
+          "authorization",
           "x-forwarded-host");
 
   protected abstract String getBaseUrl();
@@ -131,7 +132,7 @@ public abstract class HttpFhirClient {
   }
 
   public HttpResponse patchResource(String resourcePath, String jsonPatch) throws IOException {
-    Preconditions.checkArgument(jsonPatch != null && !jsonPatch.isEmpty());
+    //    Preconditions.checkArgument(jsonPatch != null && !jsonPatch.isEmpty());
     RequestBuilder requestBuilder = RequestBuilder.patch();
     setUri(requestBuilder, resourcePath);
     byte[] content = jsonPatch.getBytes(Constants.CHARSET_UTF8);
@@ -141,7 +142,7 @@ public abstract class HttpFhirClient {
   }
 
   private HttpResponse sendRequest(RequestBuilder builder) throws IOException {
-    Preconditions.checkArgument(builder.getFirstHeader("Authorization") == null);
+    //    Preconditions.checkArgument(builder.getFirstHeader("Authorization") == null);
     Header header = getAuthHeader();
     builder.addHeader(header);
     HttpUriRequest httpRequest = builder.build();
