@@ -23,7 +23,6 @@ import com.google.fhir.gateway.JwtUtil;
 import com.google.fhir.gateway.interfaces.AccessChecker;
 import com.google.fhir.gateway.interfaces.AccessCheckerFactory;
 import com.google.fhir.gateway.interfaces.AccessDecision;
-import com.google.fhir.gateway.interfaces.NoOpAccessDecision;
 import com.google.fhir.gateway.interfaces.PatientFinder;
 import com.google.fhir.gateway.interfaces.RequestDetailsReader;
 import javax.inject.Named;
@@ -49,7 +48,7 @@ public class CustomAccessChecker implements AccessChecker {
 
   @Override
   public AccessDecision checkAccess(RequestDetailsReader requestDetails) {
-    return NoOpAccessDecision.accessGranted();
+    return CustomAccessDecision.accessGranted();
   }
 
   // The factory must be thread-safe.
